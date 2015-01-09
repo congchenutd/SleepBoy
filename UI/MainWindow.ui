@@ -22,7 +22,7 @@
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>3</number>
+       <number>0</number>
       </property>
       <property name="iconSize">
        <size>
@@ -30,7 +30,7 @@
         <height>32</height>
        </size>
       </property>
-      <widget class="QWidget" name="tabCameras">
+      <widget class="CameraPage" name="tabCameras">
        <attribute name="icon">
         <iconset resource="Resources.qrc">
          <normaloff>:/Images/Camera.png</normaloff>:/Images/Camera.png</iconset>
@@ -97,6 +97,12 @@
    <class>SettingsPage</class>
    <extends>QWidget</extends>
    <header>SettingsPage.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>CameraPage</class>
+   <extends>QWidget</extends>
+   <header>CameraPage.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
