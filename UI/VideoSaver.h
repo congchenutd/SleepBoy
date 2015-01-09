@@ -1,5 +1,6 @@
 #pragma once
 #include <opencv2/opencv.hpp>
+#include <QString>
 #include "FrameHandler.h"
 
 using namespace cv;
@@ -7,10 +8,19 @@ using namespace cv;
 class VideoSaver: public FrameHandler
 {
 public:
-	VideoSaver(const String& filename, int fourcc, double fps, Size frameSize);
-	void handleFrame(Mat& frame);
+    void config(const QString& path, int fourcc, int fps, Size frameSize);
+    void handleFrame(Mat& frame);
+
+private:
+    QString generateFileName();
 
 private:
 	VideoWriter _videoWriter;
+    int         _frameCount;
+    QString     _path;
+    QString     _fileName;
+    int         _fourcc;
+    int         _fps;
+    Size        _frameSize;
 };
 

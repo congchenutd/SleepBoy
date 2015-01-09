@@ -21,11 +21,16 @@ CameraPage::CameraPage(QWidget *parent) :
     motionDetecter->setThreshold(settings.getMinWidth(),
                                  settings.getMinHeight(),
                                  settings.getMinNumber());
+
     _pipeLine.addHandler(motionDetecter);
     _pipeLine.addHandler(new VideoViewer(ui.label));
-    _pipeLine.addHandler(new VideoSaver("out.avi",
-                                        VideoWriter::fourcc('D', 'I', 'V', 'X'),
-                                        settings.getFPS(),
-                                        _pipeLine.getFrameSize()));
+
+    VideoSaver* videoSaver = new VideoSaver;
+    videoSaver->config(settings.getStoragePath(),
+                       VideoWriter::fourcc('D', 'I', 'V', 'X'),
+                       settings.getFPS(),
+                       _pipeLine.getFrameSize());
+    _pipeLine.addHandler(videoSaver);
+
     _pipeLine.start(1000 / settings.getFPS());
 }
