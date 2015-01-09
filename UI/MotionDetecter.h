@@ -15,12 +15,13 @@ class MotionDetecter: public FrameHandler
 {
 public:
 	MotionDetecter();
-	void setSizeThreshold(int width, int height);
+    void setThreshold(int width, int height, int number);
 	void handleFrame(Mat& frame);
 
 private:
 	int _widthThreshold;
 	int _heightThreshold;
+    int _numberThreshold;
 	Mat _foreground;
 	Ptr<BackgroundSubtractorMOG2> _substractor;
 };

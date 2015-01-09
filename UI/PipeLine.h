@@ -17,6 +17,7 @@ public:
 	void addHandler(FrameHandler* handler);
     void start(int fps = 10);
     void stop();
+    cv::Size getFrameSize();
 
 private slots:
     void onTimer();

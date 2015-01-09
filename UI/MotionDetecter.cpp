@@ -8,14 +8,15 @@ using namespace std;
 	   
 MotionDetecter::MotionDetecter()
 {
-	setSizeThreshold(100, 100);
-	_substractor = createBackgroundSubtractorMOG2();
+    setThreshold(100, 100, 1);
+    _substractor = createBackgroundSubtractorMOG2();
 }
 
-void MotionDetecter::setSizeThreshold(int width, int height)
+void MotionDetecter::setThreshold(int width, int height, int number)
 {
-	_widthThreshold  = width;
-	_heightThreshold = height;
+    _widthThreshold  = width;
+    _heightThreshold = height;
+    _numberThreshold = number;
 }
 
 void MotionDetecter::handleFrame(Mat& frame)
@@ -27,6 +28,9 @@ void MotionDetecter::handleFrame(Mat& frame)
 	erode (_foreground, _foreground, Mat());
 	dilate(_foreground, _foreground, Mat());
 	findContours(_foreground, contours, RETR_EXTERNAL, CHAIN_APPROX_NONE);
+
+    if(contours.size() < _numberThreshold)
+        return;
 
 	for(size_t i = 0; i < contours.size(); i++)
 	{

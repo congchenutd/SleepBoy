@@ -17,11 +17,15 @@ CameraPage::CameraPage(QWidget *parent) :
     //"http://1:1@192.168.1.110:8888/videostream.asf"
     MySettings settings;
     _pipeLine.openDevice(0);
-    _pipeLine.addHandler(new MotionDetecter);
+    MotionDetecter* motionDetecter = new MotionDetecter();
+    motionDetecter->setThreshold(settings.getMinWidth(),
+                                 settings.getMinHeight(),
+                                 settings.getMinNumber());
+    _pipeLine.addHandler(motionDetecter);
     _pipeLine.addHandler(new VideoViewer(ui.label));
     _pipeLine.addHandler(new VideoSaver("out.avi",
                                         VideoWriter::fourcc('D', 'I', 'V', 'X'),
                                         settings.getFPS(),
-                                        Size(640, 480)));
+                                        _pipeLine.getFrameSize()));
     _pipeLine.start(1000 / settings.getFPS());
 }

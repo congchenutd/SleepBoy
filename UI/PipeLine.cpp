@@ -15,6 +15,11 @@ void PipeLine::stop() {
     _timer.stop();
 }
 
+Size PipeLine::getFrameSize() {
+    return Size(_input.get(CAP_PROP_FRAME_WIDTH),
+                _input.get(CAP_PROP_FRAME_HEIGHT));
+}
+
 void PipeLine::onTimer()
 {
     if(!_input.isOpened())
