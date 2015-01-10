@@ -1,4 +1,5 @@
-#include "SettingsPage.h"
+﻿#include "SettingsPage.h"
+#include <QDateTime>
 #include <QFileDialog>
 
 SettingsPage::SettingsPage(QWidget* parent) :
@@ -7,6 +8,8 @@ SettingsPage::SettingsPage(QWidget* parent) :
     ui.setupUi(this);
     connect(ui.btSave,          SIGNAL(clicked()), this, SLOT(onSave()));
     connect(ui.btStoragePath,   SIGNAL(clicked()), this, SLOT(onSetStoragePath()));
+    enforceTimeLimit();
+    enforceStorageLimit();
 }
 
 void SettingsPage::load()
@@ -18,8 +21,8 @@ void SettingsPage::load()
     ui.sbNumber         ->setValue  (_settings.getMinNumber());
     ui.sbStorageInterval->setValue  (_settings.getStorageInterval());
     ui.leStoragePath    ->setText   (_settings.getStoragePath());
-    ui.sbMaxDays        ->setValue  (_settings.getMaxDays());
     ui.sbMaxStorage     ->setValue  (_settings.getMaxStorage());
+    ui.sbMaxDays        ->setValue  (_settings.getMaxDays());
 }
 
 void SettingsPage::onSave()
@@ -31,7 +34,7 @@ void SettingsPage::onSave()
     _settings.setMinNumber      (ui.sbNumber->value());
     _settings.setStorageInterval(ui.sbStorageInterval->value());
     _settings.setStoragePath    (ui.leStoragePath->text());
-    _settings.setMaxStorage     (ui.sbMaxDays->value());
+    _settings.setMaxStorage     (ui.sbMaxStorage->value());
     _settings.setMaxDays        (ui.sbMaxDays->value());
 }
 
@@ -41,4 +44,33 @@ void SettingsPage::onSetStoragePath()
                                                     ".",  QFileDialog::ShowDirsOnly);
     if(!dir.isEmpty())
         ui.leStoragePath->setText(dir);
+}
+
+void SettingsPage::enforceTimeLimit()
+{
+    QDir dir(_settings.getStoragePath());
+    QFileInfoList infoList = dir.entryInfoList(QStringList() << "*.avi",
+                                               QDir::Files);
+    QDateTime   today      = QDateTime::currentDateTime();
+    int         daysToKeep = MySettings().getMaxDays();
+    foreach(const QFileInfo& info, infoList)
+        if(info.created().daysTo(today) > daysToKeep)
+            QFile::remove(info.filePath());
+}
+
+void SettingsPage::enforceStorageLimit()
+{
+    qint64 size = 0;
+    QDir dir(_settings.getStoragePath());
+    QFileInfoList infoList = dir.entryInfoList(QStringList() << "*.avi",
+                                               QDir::NoFilter,
+                                               QDir::Time | QDir::Reversed);
+    foreach(const QFileInfo& info, infoList)
+        size += info.size();
+    while(!infoList.isEmpty() && size > 10 * 1024 * 1024)
+    {
+        size -= infoList.front().size();
+        QFile(infoList.front().filePath()).remove();
+        infoList.removeFirst();
+    }
 }

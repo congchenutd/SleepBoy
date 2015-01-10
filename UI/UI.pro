@@ -42,3 +42,5 @@ FORMS    += MainWindow.ui \
 
 RESOURCES += \
     Resources.qrc
+
+QMAKE_LFLAGS += /ignore:4819

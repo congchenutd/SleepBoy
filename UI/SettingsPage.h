@@ -1,4 +1,4 @@
-#ifndef SETTINGSPAGE_H
+﻿#ifndef SETTINGSPAGE_H
 #define SETTINGSPAGE_H
 
 #include "ui_SettingsPage.h"
@@ -12,9 +12,13 @@ public:
     SettingsPage(QWidget* parent = 0);
     void load();
 
-public slots:
+private slots:
     void onSave();
     void onSetStoragePath();
+
+private:
+    void enforceTimeLimit();
+    void enforceStorageLimit();
 
 private:
     Ui::SettingsPage ui;
