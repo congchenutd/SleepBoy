@@ -26,6 +26,10 @@ void MySettings::setMinNumber(int number) {
     setValue("MinNumber", number);
 }
 
+void MySettings::setStorageInterval(int minutes) {
+    setValue("StorageInterval", minutes);
+}
+
 void MySettings::setStoragePath(const QString& path) {
     setValue("StoragePath", path);
 }
@@ -56,6 +60,10 @@ int MySettings::getMinHeight() const {
 
 int MySettings::getMinNumber() const {
     return value("MinNumber").toInt();
+}
+
+int MySettings::getStorageInterval() const {
+    return value("StorageInterval").toInt();
 }
 
 QString MySettings::getStoragePath() const {

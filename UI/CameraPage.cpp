@@ -29,7 +29,8 @@ CameraPage::CameraPage(QWidget *parent) :
     videoSaver->config(settings.getStoragePath(),
                        VideoWriter::fourcc('D', 'I', 'V', 'X'),
                        settings.getFPS(),
-                       _pipeLine.getFrameSize());
+                       _pipeLine.getFrameSize(),
+                       settings.getStorageInterval());
     _pipeLine.addHandler(videoSaver);
 
     _pipeLine.start(1000 / settings.getFPS());

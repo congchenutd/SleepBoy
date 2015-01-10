@@ -8,7 +8,7 @@ using namespace cv;
 class VideoSaver: public FrameHandler
 {
 public:
-    void config(const QString& path, int fourcc, int fps, Size frameSize);
+    void config(const QString& path, int fourcc, int fps, Size frameSize, int interval);
     void handleFrame(Mat& frame);
 
 private:
@@ -22,5 +22,6 @@ private:
     int         _fourcc;
     int         _fps;
     Size        _frameSize;
+    int         _interval;
 };
 
