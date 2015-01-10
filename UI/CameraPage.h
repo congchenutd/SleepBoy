@@ -11,6 +11,9 @@ class CameraPage : public QWidget
 public:
     CameraPage(QWidget* parent = 0);
 
+private slots:
+    void onTurnOn(bool on);
+
 private:
     Ui::CameraPage ui;
     PipeLine _pipeLine;

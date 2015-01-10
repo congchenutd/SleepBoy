@@ -6,5 +6,8 @@
         <file>Images/Settings.png</file>
         <file>Images/SleepyBoy.ico</file>
         <file>Images/SleepyBoy.png</file>
+        <file>Images/Green.png</file>
+        <file>Images/Red.png</file>
+        <file>Images/CameraOff.png</file>
     </qresource>
 </RCC>

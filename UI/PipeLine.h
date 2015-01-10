@@ -3,9 +3,10 @@
 
 #include <opencv2/opencv.hpp>
 #include <QTimer>
-#include <QVector>
+#include <QList>
 
 class FrameHandler;
+using namespace cv;
 
 class PipeLine: public QObject
 {
@@ -17,16 +18,16 @@ public:
 	void addHandler(FrameHandler* handler);
     void start(int fps = 10);
     void stop();
-    cv::Size getFrameSize();
+    Size getFrameSize();
 
 private slots:
     void onTimer();
 
 private:
-	cv::VideoCapture _input;
-    QVector<FrameHandler*> _handlers;
-    QTimer _timer;
-    cv::Mat _frame;
+    VideoCapture            _input;
+    QList<FrameHandler*>    _handlers;
+    QTimer                  _timer;
+    Mat                     _frame;
 };
 
 #endif

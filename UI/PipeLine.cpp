@@ -11,7 +11,9 @@ void PipeLine::start(int fps)
     _timer.start(qMax(10, 1000 / fps));
 }
 
-void PipeLine::stop() {
+void PipeLine::stop()
+{
+    _input.release();
     _timer.stop();
 }
 
